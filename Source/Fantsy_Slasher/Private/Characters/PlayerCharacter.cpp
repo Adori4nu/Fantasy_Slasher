@@ -2,10 +2,32 @@
 
 
 #include "Characters/PlayerCharacter.h"
+#include "Camera/CameraComponent.h"
+#include "Components/AttributeComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "GroomComponent.h"
+#include "Items/Item.h"
+#include "Items/Soul.h"
+#include "Items/Treasure.h"
+#include "Items/Weapons/Weapon.h"
+#include "Animation/AnimMontage.h"
+#include "HUD/SlasherHUD.h"
+#include "HUD/SlasherOverlay.h"
 
 APlayerCharacter::APlayerCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationYaw = false;
+	bUseControllerRotationRoll = false;
+
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->RotationRate = FRotator(0.f, 400.f, 0.f);
+
+
 }
 
 void APlayerCharacter::Tick(float DeltaTime)
@@ -74,6 +96,10 @@ void APlayerCharacter::Dodge()
 {
 }
 
+void APlayerCharacter::EquipWeapon(AWeapon* Weapon)
+{
+}
+
 void APlayerCharacter::AttackEnd()
 {
 }
@@ -136,5 +162,18 @@ void APlayerCharacter::FinishEquipping()
 }
 
 void APlayerCharacter::HitReactEnd()
+{
+}
+
+bool APlayerCharacter::IsUnoccupied()
+{
+	return false;
+}
+
+void APlayerCharacter::InitializeSlashOverlay()
+{
+}
+
+void APlayerCharacter::SetHUDHealth()
 {
 }

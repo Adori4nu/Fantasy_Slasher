@@ -15,7 +15,7 @@ class AItem;
 class ASoul;
 class ATreasure;
 class UAnimMontage;
-class USlashOverlay;
+class USlasherOverlay;
 
 /**
  * 
@@ -49,7 +49,7 @@ protected:
 	void Dodge();
 
 	/** Combat */
-	//void EquipWeapon(AWeapon* Weapon);
+	void EquipWeapon(AWeapon* Weapon);
 	virtual void AttackEnd() override;
 	virtual void DodgeEnd() override;
 	virtual bool CanAttack() override;
@@ -74,4 +74,40 @@ protected:
 	UFUNCTION(BlueprintCallable)
 		void HitReactEnd();
 
+private:
+	bool IsUnoccupied();
+	void InitializeSlashOverlay();
+	void SetHUDHealth();
+
+	/* Character components */
+
+	UPROPERTY(VisibleAnywhere)
+		TObjectPtr<USpringArmComponent> CameraBoom;
+
+	UPROPERTY(VisibleAnywhere)
+		TObjectPtr<UCameraComponent> ViewCamera;
+
+	UPROPERTY(VisibleAnywhere, Category = Hair)
+		TObjectPtr<UGroomComponent> Hair;
+
+	UPROPERTY(VisibleAnywhere, Category = Hair)
+		TObjectPtr<UGroomComponent> Eyebrows;
+
+	UPROPERTY(VisibleInstanceOnly)
+		TObjectPtr<AItem> OverlappingItem;
+
+	UPROPERTY(EditDefaultsOnly, Category = Montages)
+		TObjectPtr<UAnimMontage> EquipMontage;
+
+	ECharacterState CharacterState = ECharacterState::ECS_Unequipped;
+
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		EActionState ActionState = EActionState::EAS_Unoccupied;
+
+	UPROPERTY()
+		TObjectPtr<USlasherOverlay> UISlasherOverlay;
+
+public:
+	FORCEINLINE ECharacterState GetCharacterState() const { return CharacterState; }
+	FORCEINLINE EActionState GetActionState() const { return ActionState; }
 };
